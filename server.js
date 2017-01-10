@@ -1,6 +1,7 @@
 var express = require('express');
 var port = process.env.PORT;
 var app = express();
+var uuid = require('node-uuid');
 var urls = [];
 app.get('/',(req, res) => {
   res.send('use /:url to set a new one, /goto/:tinyurl to get the original one');
@@ -9,7 +10,7 @@ app.get('/',(req, res) => {
 app.get('/:url', (req, res) => {
   var url = req.params.url;
   if(url.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g)){
-    var n = {short: 'doesntexist.itreallydoesnt' + urls.length, original: url};
+    var n = {short: uuid.v1() + urls.length, original: url};
     urls.push(n);
     res.json(n);
   }else{
